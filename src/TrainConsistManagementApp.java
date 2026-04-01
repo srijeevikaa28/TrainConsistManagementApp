@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TrainConsistManagementApp {
 
@@ -7,28 +7,17 @@ public class TrainConsistManagementApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Create ArrayList
-        List<String> trainConsist = new ArrayList<>();
+        // 🔹 Create HashSet
+        Set<String> bogieIds = new HashSet<>();
 
-        // 🔹 Add bogies
-        trainConsist.add("Sleeper");
-        trainConsist.add("AC Chair");
-        trainConsist.add("First Class");
+        // 🔹 Add bogie IDs (including duplicates)
+        bogieIds.add("B101");
+        bogieIds.add("B102");
+        bogieIds.add("B103");
+        bogieIds.add("B101"); // duplicate
+        bogieIds.add("B102"); // duplicate
 
-        // 🔹 Display after insertion
-        System.out.println("After Adding Bogies: " + trainConsist);
-
-        // 🔹 Remove one bogie
-        trainConsist.remove("AC Chair");
-
-        // 🔹 Check existence
-        if (trainConsist.contains("Sleeper")) {
-            System.out.println("Sleeper bogie exists.");
-        } else {
-            System.out.println("Sleeper bogie not found.");
-        }
-
-        // 🔹 Final list
-        System.out.println("Final Train Consist: " + trainConsist);
+        // 🔹 Display unique bogie IDs
+        System.out.println("Unique Bogie IDs: " + bogieIds);
     }
 }
