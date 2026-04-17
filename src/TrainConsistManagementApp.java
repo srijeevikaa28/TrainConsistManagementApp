@@ -1,8 +1,7 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-// Bogie class (Passenger bogies reused from UC7)
+// Bogie class reused from UC7/UC8
 class Bogie {
     int id;
     String name;
@@ -24,27 +23,31 @@ public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        // UC7 Reused Bogie List
+        // UC7 reused list
         List<Bogie> bogies = new ArrayList<>();
         bogies.add(new Bogie(1, "Sleeper", 72));
         bogies.add(new Bogie(2, "AC Chair", 60));
-        bogies.add(new Bogie(3, "First Class", 85));
-        bogies.add(new Bogie(4, "General", 50));
-        bogies.add(new Bogie(5, "Premium AC", 90));
+        bogies.add(new Bogie(3, "Sleeper", 80));
+        bogies.add(new Bogie(4, "First Class", 90));
+        bogies.add(new Bogie(5, "AC Chair", 65));
+        bogies.add(new Bogie(6, "First Class", 85));
 
         System.out.println("=== Original Bogie List ===");
         bogies.forEach(System.out::println);
 
-        // UC8: Stream filtering (capacity > 60)
-        List<Bogie> filteredBogies = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
+        // UC9: Grouping by bogie type (name)
+        Map<String, List<Bogie>> groupedBogies = bogies.stream()
+                .collect(Collectors.groupingBy(b -> b.name));
 
-        System.out.println("\n=== Filtered Bogies (capacity > 60) ===");
-        filteredBogies.forEach(System.out::println);
+        System.out.println("\n=== Grouped Bogies by Type ===");
 
-        // Verify original list is unchanged
-        System.out.println("\n=== Original List After Filtering (Unchanged) ===");
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+            System.out.println("\nType: " + entry.getKey());
+            entry.getValue().forEach(System.out::println);
+        }
+
+        // Verify original list unchanged
+        System.out.println("\n=== Original List After Grouping (Unchanged) ===");
         bogies.forEach(System.out::println);
     }
 }
