@@ -1,44 +1,53 @@
 import java.util.*;
+import java.util.stream.Collectors;
+
+// Bogie class reused from UC7–UC9
+class Bogie {
+    int id;
+    String name;
+    int capacity;
+
+    public Bogie(int id, String name, int capacity) {
+        this.id = id;
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    @Override
+    public String toString() {
+        return "Bogie{id=" + id + ", name='" + name + "', capacity=" + capacity + "}";
+    }
+}
 
 public class TrainConsistManagementApp {
 
-    // Bogie class (custom object)
-    static class Bogie {
-        String name;
-        int capacity;
-
-        // Constructor
-        Bogie(String name, int capacity) {
-            this.name = name;
-            this.capacity = capacity;
-        }
-
-        // toString method for printing
-        @Override
-        public String toString() {
-            return name + " - Capacity: " + capacity;
-        }
-    }
-
     public static void main(String[] args) {
 
-        System.out.println("=== UC7: Sort Bogies by Capacity ===");
-
-        // List to store bogies
+        // UC7 reused list
         List<Bogie> bogies = new ArrayList<>();
+        bogies.add(new Bogie(1, "Sleeper", 72));
+        bogies.add(new Bogie(2, "AC Chair", 60));
+        bogies.add(new Bogie(3, "Sleeper", 80));
+        bogies.add(new Bogie(4, "First Class", 90));
+        bogies.add(new Bogie(5, "AC Chair", 65));
 
-        // Adding bogies
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 60));
-        bogies.add(new Bogie("First Class", 40));
+        System.out.println("=== Original Bogie List ===");
+        bogies.forEach(System.out::println);
 
-        // Sorting using Comparator (Lambda)
-        bogies.sort(Comparator.comparingInt(b -> b.capacity));
+        // UC10: map + reduce to calculate total seats
+        int totalSeats = bogies.stream()
+                .map(Bogie::getCapacity)
+                .reduce(0, Integer::sum);
 
-        // Display sorted bogies
-        System.out.println("Sorted Bogies (by Capacity):");
-        for (Bogie b : bogies) {
-            System.out.println(b);
-        }
+        System.out.println("\n=== Total Seating Capacity of Train ===");
+        System.out.println("Total Seats = " + totalSeats);
+
+        // Verify original list unchanged
+        System.out.println("\n=== Original List After Reduce (Unchanged) ===");
+        bogies.forEach(System.out::println);
     }
 }
