@@ -1,53 +1,45 @@
-import java.util.*;
-import java.util.stream.Collectors;
-
-// Bogie class reused from UC7–UC9
-class Bogie {
-    int id;
-    String name;
-    int capacity;
-
-    public Bogie(int id, String name, int capacity) {
-        this.id = id;
-        this.name = name;
-        this.capacity = capacity;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    @Override
-    public String toString() {
-        return "Bogie{id=" + id + ", name='" + name + "', capacity=" + capacity + "}";
-    }
-}
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        // UC7 reused list
-        List<Bogie> bogies = new ArrayList<>();
-        bogies.add(new Bogie(1, "Sleeper", 72));
-        bogies.add(new Bogie(2, "AC Chair", 60));
-        bogies.add(new Bogie(3, "Sleeper", 80));
-        bogies.add(new Bogie(4, "First Class", 90));
-        bogies.add(new Bogie(5, "AC Chair", 65));
+        // Sample inputs (you can also take Scanner input if required)
+        String trainId = "TRN-1234";
+        String cargoCode = "PET-AB";
 
-        System.out.println("=== Original Bogie List ===");
-        bogies.forEach(System.out::println);
+        // Regex patterns
+        String trainIdPattern = "TRN-\\d{4}";
+        String cargoCodePattern = "PET-[A-Z]{2}";
 
-        // UC10: map + reduce to calculate total seats
-        int totalSeats = bogies.stream()
-                .map(Bogie::getCapacity)
-                .reduce(0, Integer::sum);
+        // Compile patterns
+        Pattern trainPattern = Pattern.compile(trainIdPattern);
+        Pattern cargoPattern = Pattern.compile(cargoCodePattern);
 
-        System.out.println("\n=== Total Seating Capacity of Train ===");
-        System.out.println("Total Seats = " + totalSeats);
+        // Create matchers
+        Matcher trainMatcher = trainPattern.matcher(trainId);
+        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
 
-        // Verify original list unchanged
-        System.out.println("\n=== Original List After Reduce (Unchanged) ===");
-        bogies.forEach(System.out::println);
+        // Validate Train ID
+        boolean isTrainValid = trainMatcher.matches();
+
+        // Validate Cargo Code
+        boolean isCargoValid = cargoMatcher.matches();
+
+        // Output results
+        System.out.println("=== Regex Validation Result ===");
+
+        if (isTrainValid) {
+            System.out.println("Train ID is VALID");
+        } else {
+            System.out.println("Train ID is INVALID");
+        }
+
+        if (isCargoValid) {
+            System.out.println("Cargo Code is VALID");
+        } else {
+            System.out.println("Cargo Code is INVALID");
+        }
     }
 }
