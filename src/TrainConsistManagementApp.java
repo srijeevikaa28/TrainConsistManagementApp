@@ -1,45 +1,46 @@
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.util.*;
+
+class GoodsBogie {
+    String type;   // Rectangular / Cylindrical
+    String cargo;  // Petroleum, Coal, etc.
+
+    public GoodsBogie(String type, String cargo) {
+        this.type = type;
+        this.cargo = cargo;
+    }
+
+    @Override
+    public String toString() {
+        return "GoodsBogie{type='" + type + "', cargo='" + cargo + "'}";
+    }
+}
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        // Sample inputs (you can also take Scanner input if required)
-        String trainId = "TRN-1234";
-        String cargoCode = "PET-AB";
+        // Goods bogie list
+        List<GoodsBogie> bogies = new ArrayList<>();
 
-        // Regex patterns
-        String trainIdPattern = "TRN-\\d{4}";
-        String cargoCodePattern = "PET-[A-Z]{2}";
+        bogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        bogies.add(new GoodsBogie("Rectangular", "Coal"));
+        bogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
 
-        // Compile patterns
-        Pattern trainPattern = Pattern.compile(trainIdPattern);
-        Pattern cargoPattern = Pattern.compile(cargoCodePattern);
+        System.out.println("=== Goods Bogie List ===");
+        bogies.forEach(System.out::println);
 
-        // Create matchers
-        Matcher trainMatcher = trainPattern.matcher(trainId);
-        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+        // UC12: Safety validation using allMatch()
+        boolean isSafeTrain = bogies.stream()
+                .allMatch(b -> b.type.equals("Rectangular") ||
+                        (b.type.equals("Cylindrical") && b.cargo.equals("Petroleum")));
 
-        // Validate Train ID
-        boolean isTrainValid = trainMatcher.matches();
+        // Output result
+        System.out.println("\n=== Safety Validation Result ===");
 
-        // Validate Cargo Code
-        boolean isCargoValid = cargoMatcher.matches();
-
-        // Output results
-        System.out.println("=== Regex Validation Result ===");
-
-        if (isTrainValid) {
-            System.out.println("Train ID is VALID");
+        if (isSafeTrain) {
+            System.out.println("Train is SAFETY COMPLIANT");
         } else {
-            System.out.println("Train ID is INVALID");
-        }
-
-        if (isCargoValid) {
-            System.out.println("Cargo Code is VALID");
-        } else {
-            System.out.println("Cargo Code is INVALID");
+            System.out.println("Train is NOT SAFETY COMPLIANT");
         }
     }
 }
